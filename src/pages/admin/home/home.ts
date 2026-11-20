@@ -1,19 +1,12 @@
-import { checkAuhtUser, logout } from "../../../utils/auth";
+import { logout } from "../../../utils/auth";
+import { getSession } from "../../../utils/localStorage";
 
-const buttonLogout = document.getElementById(
-  "logoutButton"
-) as HTMLButtonElement;
-buttonLogout?.addEventListener("click", () => {
-  logout();
-});
+const saludo = document.querySelector<HTMLParagraphElement>("#saludo");
+const botonLogout = document.querySelector<HTMLButtonElement>("#logoutButton");
 
+const session = getSession();
+if (saludo && session) {
+  saludo.textContent = `Sesión iniciada como ${session.email} (${session.role})`;
+}
 
-const initPage = () => {
-  console.log("inicio de pagina");
-  checkAuhtUser(
-    "/src/pages/auth/login/login.html",
-    "/src/pages/client/home/home.html",
-    "admin"
-  );
-};
-initPage();
+botonLogout?.addEventListener("click", () => logout());
